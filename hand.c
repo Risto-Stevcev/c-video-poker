@@ -7,9 +7,7 @@ del_hand (Hand *self)
 {
     int i;
     for (i = 0; i < MAX_HAND; i++)
-    {
         free(self->cards[i]);
-    }
     free(self);
 }
 
@@ -56,17 +54,23 @@ int intcmp(const void *aa, const void *bb)
     return (*a < *b) ? -1 : (*a > *b);
 }
 
+void
+get_ranks(int (*ranks)[], Card *(*cards)[]) 
+{
+    int i;
+    for (i = 0; i < MAX_HAND; i++)
+        (*ranks)[i] = (*cards)[i]->rank;
+
+    qsort((*ranks), MAX_HAND, sizeof(int), intcmp);
+}   
+
 bool
 is_straight (Hand *self)
 {
     int ranks[MAX_HAND];
+    get_ranks(&ranks, &self->cards);
 
     int i;
-    for (i = 0; i < MAX_HAND; i++)
-        ranks[i] = self->cards[i]->rank;
-
-    qsort(ranks, MAX_HAND, sizeof(int), intcmp);
-
     for (i = 1; i < MAX_HAND; i++) { 
         if (ranks[i-1] + 1 != ranks[i])
             return false;
@@ -84,12 +88,7 @@ bool
 is_royal_flush (Hand *self)
 {
     int ranks[MAX_HAND];
-
-    int i;
-    for (i = 0; i < MAX_HAND; i++)
-        ranks[i] = self->cards[i]->rank;
-
-    qsort(ranks, MAX_HAND, sizeof(int), intcmp);
+    get_ranks(&ranks, &self->cards);
 
     return self->is_straight(self) && self->is_flush(self)
         && ranks[0] == 10 && ranks[MAX_HAND-1] == 14;
@@ -100,13 +99,9 @@ find_pairs (Hand *self)
 {
     int pairs[MAX_PAIR] = { 0, 0 };
     int ranks[MAX_HAND];
+    get_ranks(&ranks, &self->cards);
 
     int i;
-    for (i = 0; i < MAX_HAND; i++)
-        ranks[i] = self->cards[i]->rank;
-
-    qsort(ranks, MAX_HAND, sizeof(int), intcmp);
-
     int j = 0;
     for (i = 1; i < MAX_HAND; i++) {   
         if (ranks[i-1] == ranks[i])
@@ -170,12 +165,7 @@ int
 high_card (Hand *self)
 {
     int ranks[MAX_HAND];
-
-    int i;
-    for (i = 0; i < MAX_HAND; i++)
-        ranks[i] = self->cards[i]->rank;
-
-    qsort(ranks, MAX_HAND, sizeof(int), intcmp);
+    get_ranks(&ranks, &self->cards);
 
     return ranks[MAX_HAND - 1];   
 }
