@@ -5,9 +5,9 @@
 #include "hand.h"
 
 
-/* * * * * *
- * Suite 1 *
- * * * * * */
+/* * * * * * * * * * * *
+ * Suite 1 - Test Card *
+ * * * * * * * * * * * */
 Card *temp_card = NULL;
 
 int 
@@ -30,7 +30,6 @@ teardown_suite1(void)
     return 0;
 }
 
-/* Test whether card rank and suit were properly initialized. */
 void
 test_init_values_suite1(void)
 {
@@ -39,9 +38,9 @@ test_init_values_suite1(void)
 }
 
 
-/* * * * * *
- * Suite 2 *
- * * * * * */
+/* * * * * * * * * * * *
+ * Suite 2 - Test Hand *
+ * * * * * * * * * * * */
 Hand *temp_hand = NULL;
 
 int 
@@ -64,7 +63,6 @@ teardown_suite2(void)
     return 0;
 }
 
-/* Test whether the hand was properly initialized. */
 void
 test_init_values_suite2(void)
 {
@@ -75,7 +73,6 @@ test_init_values_suite2(void)
     CU_ASSERT(temp_hand->cards[4] == NULL);
 }
 
-/* Test adding a card to the hand. */
 void
 test_add_card_suite2(void)
 {
@@ -89,7 +86,6 @@ test_add_card_suite2(void)
     CU_ASSERT(temp_hand->cards[0]->rank == 2);
 }
 
-/* Test removing a card from the hand. */
 void
 test_remove_card_suite2(void)
 {
@@ -103,9 +99,9 @@ test_remove_card_suite2(void)
 }
 
 
-/* * * * * *
- * Suite 3 *
- * * * * * */
+/* * * * * * * * * * * * * * * *
+ * Suite 3 - Test Hand (Flush) *
+ * * * * * * * * * * * * * * * */
 Hand *temp_hand2 = NULL;
 
 int 
@@ -138,7 +134,6 @@ teardown_suite3(void)
     return 0;
 }
 
-/* Test whether card rank and suit were properly initialized. */
 void
 test_init_values_suite3(void)
 {
@@ -176,9 +171,9 @@ test_is_not_flush_suite3(void)
 }
 
 
-/* * * * * *
- * Suite 4 *
- * * * * * */
+/* * * * * * * * * * * * * * * * * *
+ * Suite 4 - Test Hand (Straight)  *
+ * * * * * * * * * * * * * * * * * */
 Hand *temp_hand3 = NULL;
 
 int 
@@ -211,7 +206,6 @@ teardown_suite4(void)
     return 0;
 }
 
-/* Test whether card rank and suit were properly initialized. */
 void
 test_init_values_suite4(void)
 {
@@ -249,9 +243,9 @@ test_is_not_straight_suite4(void)
 }
 
 
-/* * * * * *
- * Suite 5 *
- * * * * * */
+/* * * * * * * * * * * * * * * * * * * * *
+ * Suite 5 - Test Hand (Straight-Flush)  *
+ * * * * * * * * * * * * * * * * * * * * */
 Hand *temp_hand4 = NULL;
 
 int 
@@ -284,7 +278,6 @@ teardown_suite5(void)
     return 0;
 }
 
-/* Test whether card rank and suit were properly initialized. */
 void
 test_init_values_suite5(void)
 {
@@ -333,9 +326,9 @@ test_is_not_straight_flush_suite5(void)
 }
 
 
-/* * * * * *
- * Suite 6 *
- * * * * * */
+/* * * * * * * * * * * * * * * * * * *
+ * Suite 6 - Test Hand (Royal-Flush) *
+ * * * * * * * * * * * * * * * * * * */
 Hand *temp_hand5 = NULL;
 
 int 
@@ -368,7 +361,6 @@ teardown_suite6(void)
     return 0;
 }
 
-/* Test whether card rank and suit were properly initialized. */
 void
 test_init_values_suite6(void)
 {
@@ -418,6 +410,428 @@ test_is_not_royal_flush_suite6(void)
 }
 
 
+/* * * * * * * * * * * * * * * * * *
+ * Suite 7 - Test Hand (One Pair)  *
+ * * * * * * * * * * * * * * * * * */
+Hand *temp_hand6 = NULL;
+
+int 
+setup_suite7(void)
+{
+    temp_hand6 = initHand();
+    if (temp_hand6 == NULL)
+        return -1;
+
+    Card *card1 = initCard(DIAMONDS, 4);
+    Card *card2 = initCard(HEARTS, 5);
+    Card *card3 = initCard(SPADES, 3);
+    Card *card4 = initCard(CLUBS, 7);
+    Card *card5 = initCard(CLUBS, 3);
+
+    temp_hand6->add_card(temp_hand6, card1);
+    temp_hand6->add_card(temp_hand6, card2);
+    temp_hand6->add_card(temp_hand6, card3);
+    temp_hand6->add_card(temp_hand6, card4);
+    temp_hand6->add_card(temp_hand6, card5);
+
+    return 0;
+}
+
+int
+teardown_suite7(void)
+{
+    temp_hand6->del(temp_hand6);
+    temp_hand6 = NULL;
+    return 0;
+}
+
+void
+test_init_values_suite7(void)
+{
+    CU_ASSERT(temp_hand6->cards[0] != NULL && temp_hand6->cards[0]->suit == DIAMONDS
+                                           && temp_hand6->cards[0]->rank == 4);
+    CU_ASSERT(temp_hand6->cards[1] != NULL && temp_hand6->cards[1]->suit == HEARTS
+                                           && temp_hand6->cards[1]->rank == 5);
+    CU_ASSERT(temp_hand6->cards[2] != NULL && temp_hand6->cards[2]->suit == SPADES
+                                           && temp_hand6->cards[2]->rank == 3);
+    CU_ASSERT(temp_hand6->cards[3] != NULL && temp_hand6->cards[3]->suit == CLUBS
+                                           && temp_hand6->cards[3]->rank == 7);
+    CU_ASSERT(temp_hand6->cards[4] != NULL && temp_hand6->cards[4]->suit == CLUBS
+                                           && temp_hand6->cards[4]->rank == 3);
+}
+
+void
+test_is_one_pair_suite7(void)
+{
+    CU_ASSERT(temp_hand6->is_one_pair(temp_hand6));
+}
+
+void
+test_is_not_one_pair_suite7(void)
+{
+    Card *unique_rank = initCard(SPADES, 12);
+    CU_ASSERT(unique_rank != NULL && unique_rank->suit == SPADES
+                                  && unique_rank->rank == 12);
+
+    temp_hand6->remove_card(temp_hand6, temp_hand6->cards[2]);
+    temp_hand6->add_card(temp_hand6, unique_rank);
+    CU_ASSERT(temp_hand6->cards[2] != NULL && temp_hand6->cards[2]->suit == SPADES
+                                           && temp_hand6->cards[2]->rank == 12);
+
+    CU_ASSERT(temp_hand6->is_one_pair(temp_hand6) == false); 
+    CU_ASSERT(temp_hand6->is_no_pair(temp_hand6)); 
+}
+
+
+/* * * * * * * * * * * * * * * * * *
+ * Suite 8 - Test Hand (Two Pair)  *
+ * * * * * * * * * * * * * * * * * */
+Hand *temp_hand7 = NULL;
+
+int 
+setup_suite8(void)
+{
+    temp_hand7 = initHand();
+    if (temp_hand7 == NULL)
+        return -1;
+
+    Card *card1 = initCard(DIAMONDS, 7);
+    Card *card2 = initCard(HEARTS, 5);
+    Card *card3 = initCard(SPADES, 3);
+    Card *card4 = initCard(CLUBS, 7);
+    Card *card5 = initCard(CLUBS, 3);
+
+    temp_hand7->add_card(temp_hand7, card1);
+    temp_hand7->add_card(temp_hand7, card2);
+    temp_hand7->add_card(temp_hand7, card3);
+    temp_hand7->add_card(temp_hand7, card4);
+    temp_hand7->add_card(temp_hand7, card5);
+
+    return 0;
+}
+
+int
+teardown_suite8(void)
+{
+    temp_hand7->del(temp_hand7);
+    temp_hand7 = NULL;
+    return 0;
+}
+
+void
+test_init_values_suite8(void)
+{
+    CU_ASSERT(temp_hand7->cards[0] != NULL && temp_hand7->cards[0]->suit == DIAMONDS
+                                           && temp_hand7->cards[0]->rank == 7);
+    CU_ASSERT(temp_hand7->cards[1] != NULL && temp_hand7->cards[1]->suit == HEARTS
+                                           && temp_hand7->cards[1]->rank == 5);
+    CU_ASSERT(temp_hand7->cards[2] != NULL && temp_hand7->cards[2]->suit == SPADES
+                                           && temp_hand7->cards[2]->rank == 3);
+    CU_ASSERT(temp_hand7->cards[3] != NULL && temp_hand7->cards[3]->suit == CLUBS
+                                           && temp_hand7->cards[3]->rank == 7);
+    CU_ASSERT(temp_hand7->cards[4] != NULL && temp_hand7->cards[4]->suit == CLUBS
+                                           && temp_hand7->cards[4]->rank == 3);
+}
+
+void
+test_is_two_pair_suite8(void)
+{
+    CU_ASSERT(temp_hand7->is_two_pair(temp_hand7));
+}
+
+void
+test_is_not_two_pair_suite8(void)
+{
+    Card *unique_rank = initCard(SPADES, 12);
+    CU_ASSERT(unique_rank != NULL && unique_rank->suit == SPADES
+                                  && unique_rank->rank == 12);
+
+    temp_hand7->remove_card(temp_hand7, temp_hand7->cards[2]);
+    temp_hand7->add_card(temp_hand7, unique_rank);
+    CU_ASSERT(temp_hand7->cards[2] != NULL && temp_hand7->cards[2]->suit == SPADES
+                                           && temp_hand7->cards[2]->rank == 12);
+
+    CU_ASSERT(temp_hand7->is_two_pair(temp_hand7) == false); 
+    CU_ASSERT(temp_hand7->is_one_pair(temp_hand7)); 
+}
+
+
+/* * * * * * * * * * * * * * * * * * *
+ * Suite 9 - Test Hand (Full House)  *
+ * * * * * * * * * * * * * * * * * * */
+Hand *temp_hand8 = NULL;
+
+int 
+setup_suite9(void)
+{
+    temp_hand8 = initHand();
+    if (temp_hand8 == NULL)
+        return -1;
+
+    Card *card1 = initCard(DIAMONDS, 7);
+    Card *card2 = initCard(HEARTS, 7);
+    Card *card3 = initCard(SPADES, 3);
+    Card *card4 = initCard(CLUBS, 7);
+    Card *card5 = initCard(CLUBS, 3);
+
+    temp_hand8->add_card(temp_hand8, card1);
+    temp_hand8->add_card(temp_hand8, card2);
+    temp_hand8->add_card(temp_hand8, card3);
+    temp_hand8->add_card(temp_hand8, card4);
+    temp_hand8->add_card(temp_hand8, card5);
+
+    return 0;
+}
+
+int
+teardown_suite9(void)
+{
+    temp_hand8->del(temp_hand8);
+    temp_hand8 = NULL;
+    return 0;
+}
+
+void
+test_init_values_suite9(void)
+{
+    CU_ASSERT(temp_hand8->cards[0] != NULL && temp_hand8->cards[0]->suit == DIAMONDS
+                                           && temp_hand8->cards[0]->rank == 7);
+    CU_ASSERT(temp_hand8->cards[1] != NULL && temp_hand8->cards[1]->suit == HEARTS
+                                           && temp_hand8->cards[1]->rank == 7);
+    CU_ASSERT(temp_hand8->cards[2] != NULL && temp_hand8->cards[2]->suit == SPADES
+                                           && temp_hand8->cards[2]->rank == 3);
+    CU_ASSERT(temp_hand8->cards[3] != NULL && temp_hand8->cards[3]->suit == CLUBS
+                                           && temp_hand8->cards[3]->rank == 7);
+    CU_ASSERT(temp_hand8->cards[4] != NULL && temp_hand8->cards[4]->suit == CLUBS
+                                           && temp_hand8->cards[4]->rank == 3);
+}
+
+void
+test_is_full_house_suite9(void)
+{
+    CU_ASSERT(temp_hand8->is_full_house(temp_hand8));
+}
+
+void
+test_is_not_full_house_suite9(void)
+{
+    Card *unique_rank = initCard(SPADES, 12);
+    CU_ASSERT(unique_rank != NULL && unique_rank->suit == SPADES
+                                  && unique_rank->rank == 12);
+
+    temp_hand8->remove_card(temp_hand8, temp_hand8->cards[1]);
+    temp_hand8->add_card(temp_hand8, unique_rank);
+    CU_ASSERT(temp_hand8->cards[1] != NULL && temp_hand8->cards[1]->suit == SPADES
+                                           && temp_hand8->cards[1]->rank == 12);
+
+    CU_ASSERT(temp_hand8->is_full_house(temp_hand8) == false); 
+    CU_ASSERT(temp_hand8->is_two_pair(temp_hand8)); 
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * *
+ * Suite 10 - Test Hand (Three-of-a-Kind)  *
+ * * * * * * * * * * * * * * * * * * * * * */
+Hand *temp_hand9 = NULL;
+
+int 
+setup_suite10(void)
+{
+    temp_hand9 = initHand();
+    if (temp_hand9 == NULL)
+        return -1;
+
+    Card *card1 = initCard(DIAMONDS, 4);
+    Card *card2 = initCard(HEARTS, 3);
+    Card *card3 = initCard(SPADES, 3);
+    Card *card4 = initCard(CLUBS, 7);
+    Card *card5 = initCard(CLUBS, 3);
+
+    temp_hand9->add_card(temp_hand9, card1);
+    temp_hand9->add_card(temp_hand9, card2);
+    temp_hand9->add_card(temp_hand9, card3);
+    temp_hand9->add_card(temp_hand9, card4);
+    temp_hand9->add_card(temp_hand9, card5);
+
+    return 0;
+}
+
+int
+teardown_suite10(void)
+{
+    temp_hand9->del(temp_hand9);
+    temp_hand9 = NULL;
+    return 0;
+}
+
+void
+test_init_values_suite10(void)
+{
+    CU_ASSERT(temp_hand9->cards[0] != NULL && temp_hand9->cards[0]->suit == DIAMONDS
+                                           && temp_hand9->cards[0]->rank == 4);
+    CU_ASSERT(temp_hand9->cards[1] != NULL && temp_hand9->cards[1]->suit == HEARTS
+                                           && temp_hand9->cards[1]->rank == 3);
+    CU_ASSERT(temp_hand9->cards[2] != NULL && temp_hand9->cards[2]->suit == SPADES
+                                           && temp_hand9->cards[2]->rank == 3);
+    CU_ASSERT(temp_hand9->cards[3] != NULL && temp_hand9->cards[3]->suit == CLUBS
+                                           && temp_hand9->cards[3]->rank == 7);
+    CU_ASSERT(temp_hand9->cards[4] != NULL && temp_hand9->cards[4]->suit == CLUBS
+                                           && temp_hand9->cards[4]->rank == 3);
+}
+
+void
+test_is_three_kind_suite10(void)
+{
+    CU_ASSERT(temp_hand9->is_three_kind(temp_hand9));
+}
+
+void
+test_is_not_three_kind_suite10(void)
+{
+    Card *unique_rank = initCard(SPADES, 12);
+    CU_ASSERT(unique_rank != NULL && unique_rank->suit == SPADES
+                                  && unique_rank->rank == 12);
+
+    temp_hand9->remove_card(temp_hand9, temp_hand9->cards[2]);
+    temp_hand9->add_card(temp_hand9, unique_rank);
+    CU_ASSERT(temp_hand9->cards[2] != NULL && temp_hand9->cards[2]->suit == SPADES
+                                           && temp_hand9->cards[2]->rank == 12);
+
+    CU_ASSERT(temp_hand9->is_three_kind(temp_hand9) == false); 
+    CU_ASSERT(temp_hand9->is_one_pair(temp_hand9)); 
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * *
+ * Suite 11 - Test Hand (Four-of-a-Kind) *
+ * * * * * * * * * * * * * * * * * * * * */
+Hand *temp_hand10 = NULL;
+
+int 
+setup_suite11(void)
+{
+    temp_hand10 = initHand();
+    if (temp_hand10 == NULL)
+        return -1;
+
+    Card *card1 = initCard(DIAMONDS, 3);
+    Card *card2 = initCard(HEARTS, 3);
+    Card *card3 = initCard(SPADES, 3);
+    Card *card4 = initCard(CLUBS, 7);
+    Card *card5 = initCard(CLUBS, 3);
+
+    temp_hand10->add_card(temp_hand10, card1);
+    temp_hand10->add_card(temp_hand10, card2);
+    temp_hand10->add_card(temp_hand10, card3);
+    temp_hand10->add_card(temp_hand10, card4);
+    temp_hand10->add_card(temp_hand10, card5);
+
+    return 0;
+}
+
+int
+teardown_suite11(void)
+{
+    temp_hand10->del(temp_hand10);
+    temp_hand10 = NULL;
+    return 0;
+}
+
+void
+test_init_values_suite11(void)
+{
+    CU_ASSERT(temp_hand10->cards[0] != NULL && temp_hand10->cards[0]->suit == DIAMONDS
+                                           && temp_hand10->cards[0]->rank == 3);
+    CU_ASSERT(temp_hand10->cards[1] != NULL && temp_hand10->cards[1]->suit == HEARTS
+                                           && temp_hand10->cards[1]->rank == 3);
+    CU_ASSERT(temp_hand10->cards[2] != NULL && temp_hand10->cards[2]->suit == SPADES
+                                           && temp_hand10->cards[2]->rank == 3);
+    CU_ASSERT(temp_hand10->cards[3] != NULL && temp_hand10->cards[3]->suit == CLUBS
+                                           && temp_hand10->cards[3]->rank == 7);
+    CU_ASSERT(temp_hand10->cards[4] != NULL && temp_hand10->cards[4]->suit == CLUBS
+                                           && temp_hand10->cards[4]->rank == 3);
+}
+
+void
+test_is_four_kind_suite11(void)
+{
+    CU_ASSERT(temp_hand10->is_four_kind(temp_hand10));
+}
+
+void
+test_is_not_four_kind_suite11(void)
+{
+    Card *unique_rank = initCard(SPADES, 12);
+    CU_ASSERT(unique_rank != NULL && unique_rank->suit == SPADES
+                                  && unique_rank->rank == 12);
+
+    temp_hand10->remove_card(temp_hand10, temp_hand10->cards[2]);
+    temp_hand10->add_card(temp_hand10, unique_rank);
+    CU_ASSERT(temp_hand10->cards[2] != NULL && temp_hand10->cards[2]->suit == SPADES
+                                           && temp_hand10->cards[2]->rank == 12);
+
+    CU_ASSERT(temp_hand10->is_four_kind(temp_hand10) == false); 
+    CU_ASSERT(temp_hand10->is_three_kind(temp_hand10)); 
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * *
+ * Suite 12 - Test Hand (High card) *
+ * * * * * * * * * * * * * * * * * * * * */
+Hand *temp_hand11 = NULL;
+
+int 
+setup_suite12(void)
+{
+    temp_hand11 = initHand();
+    if (temp_hand11 == NULL)
+        return -1;
+
+    Card *card1 = initCard(DIAMONDS, 11);
+    Card *card2 = initCard(HEARTS, 4);
+    Card *card3 = initCard(SPADES, 13);
+    Card *card4 = initCard(CLUBS, 7);
+    Card *card5 = initCard(CLUBS, 3);
+
+    temp_hand11->add_card(temp_hand11, card1);
+    temp_hand11->add_card(temp_hand11, card2);
+    temp_hand11->add_card(temp_hand11, card3);
+    temp_hand11->add_card(temp_hand11, card4);
+    temp_hand11->add_card(temp_hand11, card5);
+
+    return 0;
+}
+
+int
+teardown_suite12(void)
+{
+    temp_hand11->del(temp_hand11);
+    temp_hand11 = NULL;
+    return 0;
+}
+
+void
+test_init_values_suite12(void)
+{
+    CU_ASSERT(temp_hand11->cards[0] != NULL && temp_hand11->cards[0]->suit == DIAMONDS
+                                           && temp_hand11->cards[0]->rank == 11);
+    CU_ASSERT(temp_hand11->cards[1] != NULL && temp_hand11->cards[1]->suit == HEARTS
+                                           && temp_hand11->cards[1]->rank == 4);
+    CU_ASSERT(temp_hand11->cards[2] != NULL && temp_hand11->cards[2]->suit == SPADES
+                                           && temp_hand11->cards[2]->rank == 13);
+    CU_ASSERT(temp_hand11->cards[3] != NULL && temp_hand11->cards[3]->suit == CLUBS
+                                           && temp_hand11->cards[3]->rank == 7);
+    CU_ASSERT(temp_hand11->cards[4] != NULL && temp_hand11->cards[4]->suit == CLUBS
+                                           && temp_hand11->cards[4]->rank == 3);
+}
+
+void
+test_high_card_suite12(void)
+{
+    CU_ASSERT(temp_hand11->high_card(temp_hand11) == 13);
+}
+
+
 /* * * * * * * *
  * Run C-unit  *
  * * * * * * * */
@@ -429,6 +843,12 @@ int main()
    CU_pSuite pSuite4 = NULL;
    CU_pSuite pSuite5 = NULL;
    CU_pSuite pSuite6 = NULL;
+   CU_pSuite pSuite7 = NULL;
+   CU_pSuite pSuite8 = NULL;
+   CU_pSuite pSuite9 = NULL;
+   CU_pSuite pSuite10 = NULL;
+   CU_pSuite pSuite11 = NULL;
+   CU_pSuite pSuite12 = NULL;
 
    /* initialize the CUnit test registry */
    if (CUE_SUCCESS != CU_initialize_registry())
@@ -441,9 +861,17 @@ int main()
    pSuite4 = CU_add_suite("Test Hand (Straight)", setup_suite4, teardown_suite4);
    pSuite5 = CU_add_suite("Test Hand (Straight-Flush)", setup_suite5, teardown_suite5);
    pSuite6 = CU_add_suite("Test Hand (Royal-Flush)", setup_suite6, teardown_suite6);
+   pSuite7 = CU_add_suite("Test Hand (One-Pair)", setup_suite7, teardown_suite7);
+   pSuite8 = CU_add_suite("Test Hand (Two-Pair)", setup_suite8, teardown_suite8);
+   pSuite9 = CU_add_suite("Test Hand (Full-House)", setup_suite9, teardown_suite9);
+   pSuite10 = CU_add_suite("Test Hand (Three-of-a-Kind)", setup_suite10, teardown_suite10);
+   pSuite11 = CU_add_suite("Test Hand (Four-of-a-Kind)", setup_suite11, teardown_suite11);
+   pSuite12 = CU_add_suite("Test Hand (High card)", setup_suite12, teardown_suite12);
 
-   if (  pSuite1 == NULL || pSuite2 == NULL || pSuite3 == NULL 
-      || pSuite4 == NULL || pSuite5 == NULL || pSuite6 == NULL  ) {
+   if (  pSuite1  == NULL || pSuite2  == NULL || pSuite3  == NULL 
+      || pSuite4  == NULL || pSuite5  == NULL || pSuite6  == NULL  
+      || pSuite7  == NULL || pSuite8  == NULL || pSuite9  == NULL 
+      || pSuite10 == NULL || pSuite11 == NULL || pSuite12 == NULL  ) {
       CU_cleanup_registry();
       return CU_get_error();
    }
@@ -469,7 +897,30 @@ int main()
 
       || (NULL == CU_add_test(pSuite6, "test hand (royal-flush) initialization", test_init_values_suite6))
       || (NULL == CU_add_test(pSuite6, "test hand is a royal-flush", test_is_royal_flush_suite6))
-      || (NULL == CU_add_test(pSuite6, "test hand is not a royal-flush", test_is_not_royal_flush_suite6))  )
+      || (NULL == CU_add_test(pSuite6, "test hand is not a royal-flush", test_is_not_royal_flush_suite6))
+
+      || (NULL == CU_add_test(pSuite7, "test hand (one-pair) initialization", test_init_values_suite7))
+      || (NULL == CU_add_test(pSuite7, "test hand is a one-pair", test_is_one_pair_suite7))
+      || (NULL == CU_add_test(pSuite7, "test hand is not a one-pair", test_is_not_one_pair_suite7))
+
+      || (NULL == CU_add_test(pSuite8, "test hand (two-pair) initialization", test_init_values_suite8))
+      || (NULL == CU_add_test(pSuite8, "test hand is a two-pair", test_is_two_pair_suite8))
+      || (NULL == CU_add_test(pSuite8, "test hand is not a two-pair", test_is_not_two_pair_suite8))
+
+      || (NULL == CU_add_test(pSuite9, "test hand (full-house) initialization", test_init_values_suite9))
+      || (NULL == CU_add_test(pSuite9, "test hand is a full-house", test_is_full_house_suite9))
+      || (NULL == CU_add_test(pSuite9, "test hand is not a full-house", test_is_not_full_house_suite9))
+
+      || (NULL == CU_add_test(pSuite10, "test hand (three-of-a-kind) initialization", test_init_values_suite10))
+      || (NULL == CU_add_test(pSuite10, "test hand is a three-of-a-kind", test_is_three_kind_suite10))
+      || (NULL == CU_add_test(pSuite10, "test hand is not a three-of-a-kind", test_is_not_three_kind_suite10))
+
+      || (NULL == CU_add_test(pSuite11, "test hand (four-of-a-kind) initialization", test_init_values_suite11))
+      || (NULL == CU_add_test(pSuite11, "test hand is a four-of-a-kind", test_is_four_kind_suite11))
+      || (NULL == CU_add_test(pSuite11, "test hand is not a four-of-a-kind", test_is_not_four_kind_suite11))
+
+      || (NULL == CU_add_test(pSuite12, "test hand (high card) initialization", test_init_values_suite12))
+      || (NULL == CU_add_test(pSuite12, "test hand high card", test_high_card_suite12))  )
    {
       CU_cleanup_registry();
       return CU_get_error();
